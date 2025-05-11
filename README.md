@@ -3,7 +3,7 @@
 </div>
 
 # <div align="center">Real-Time Fraud Detection with Flink, Kafka & AI</div>
-## <div align="center">Lab Guide</div>
+## <div align="center">Workshop Guide</div>
 <br>
 
 ## **Agenda**
@@ -46,11 +46,7 @@
 
 4. Clone this repo:
    ```
-   git clone git@github.com:confluentinc/commercial-workshops.git
-   ```
-   or
-   ```
-   git clone https://github.com/confluentinc/commercial-workshops.git
+   git clone https://github.com/mohtasham-confluent/flink_ai_workshop.git
    ```
 
 5. Install confluent cloud CLI based on your OS (https://docs.confluent.io/confluent-cli/current/install.html)
@@ -72,7 +68,7 @@ Welcome to “Build Predictive Machine Learning Models Using Streaming Data Pipe
 By the end of this workshop, you'll have a clear understanding of how to utilize Confluent Cloud’s features to build a foundation for machine learning applications, empowering you to transform your streaming data into valuable predictions and insights.
 
 <div align="center" padding=25px>
-    <img src="images/arc.png" width=75% height=75%>
+    <img src="images/arc.png" width=100% height=150%>
 </div>
 
 ***
@@ -96,7 +92,7 @@ An environment contains clusters and its deployed components such as Apache Flin
 
 1. Click **+ Add Environment**. Specify an **Environment Name** and Click **Create**. 
 
->**Note:** There is a *default* environment ready in your account upon account creation. You can use this *default* environment for the purpose of this workshop if you do not wish to create an additional environment.
+    >**Note:** There is a *default* environment ready in your account upon account creation. You can use this *default* environment for the purpose of this workshop if you do not wish to create an additional environment.
 
 <div align="center" padding=25px>
     <img src="images/environment.png" width=50% height=50%>
@@ -104,7 +100,7 @@ An environment contains clusters and its deployed components such as Apache Flin
 
 2. Now that you have an environment, click **Create Cluster**. 
 
-> **Note:** Confluent Cloud clusters are available in 3 types: Basic, Standard, and Dedicated. Basic is intended for development use cases so you will use that for the workshop. Basic clusters only support single zone availability. Standard and Dedicated clusters are intended for production use and support Multi-zone deployments. If you are interested in learning more about the different types of clusters and their associated features and limits, refer to this [documentation](https://docs.confluent.io/current/cloud/clusters/cluster-types.html).
+    > **Note:** Confluent Cloud clusters are available in 3 types: Basic, Standard, and Dedicated. Basic is intended for development use cases so you will use that for the workshop. Basic clusters only support single zone availability. Standard and Dedicated clusters are intended for production use and support Multi-zone deployments. If you are interested in learning more about the different types of clusters and their associated features and limits, refer to this [documentation](https://docs.confluent.io/current/cloud/clusters/cluster-types.html).
 
 3. Chose the **Basic** cluster type. 
 
@@ -172,7 +168,7 @@ An environment contains clusters and its deployed components such as Apache Flin
 
 1. On the navigation menu, you will see **Cluster Overview**. 
 
-> **Note:** This section shows Cluster Metrics, such as Throughput and Storage. This page also shows the number of Topics, Partitions, Connectors, and ksqlDB Applications.
+    > **Note:** This section shows Cluster Metrics, such as Throughput and Storage. This page also shows the number of Topics, Partitions, Connectors, and ksqlDB Applications.
 
 2. Click on **Cluster Settings**. This is where you can find your *Cluster ID, Bootstrap Server, Cloud Details, Cluster Type,* and *Capacity Limits*.
 3. On the same navigation menu, select **Topics** and click **Create Topic**. 
@@ -183,9 +179,9 @@ An environment contains clusters and its deployed components such as Apache Flin
 </div>
 
 5. Repeat the topic creation process for the following topics, using 3 partitions for each and skipping the data contract:
-- **credit_cards**
-- **transactions**
-- **fraudulent_transactions**
+    - **credit_cards**
+    - **transactions**
+    - **fraudulent_transactions**
 
 > **Note:** Topics have many configurable parameters. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html). If you are interested in viewing the default configurations, you can view them in the Topic Summary on the right side. 
 
@@ -223,56 +219,56 @@ The next step is to produce sample data using the Datagen Source connector. You 
 </div>
 
 6. Click on **Provide Your Own Schema** and paste the following contents
-```
-{
-  "type": "record",
-  "name": "CustomerRecord",
-  "namespace": "workshop_5",
-  "fields": [
+    ```
     {
-      "name": "customer_id",
-      "type": {
-        "type": "int",
-        "arg.properties": {
-          "iteration": {
-            "start": 100
+      "type": "record",
+      "name": "CustomerRecord",
+      "namespace": "workshop_5",
+      "fields": [
+        {
+          "name": "customer_id",
+          "type": {
+            "type": "int",
+            "arg.properties": {
+              "iteration": {
+                "start": 100
+              }
+            }
+          }
+        },
+        {
+          "name": "customer_email",
+          "type": {
+            "type": "string",
+            "arg.properties": {
+              "options": [
+                "alex.jose@gmail.com",
+                "james.joe@gmail.com",
+                "john.doe@gmail.com",
+                "lisa.kudrow@gmail.com",
+                "jeniffer.aniston@gmail.com",
+                "ross.geller@gmail.com",
+                "joey.tribbiani@gmail.com",
+                "courtney.cox@gmail.com"
+              ]
+            }
+          }
+        },
+        {
+          "name": "average_spending_amount",
+          "type": {
+            "type": "int",
+            "arg.properties": {
+              "range": {
+                "min": 1000,
+                "max": 1500
+              }
+            }
           }
         }
-      }
-    },
-    {
-      "name": "customer_email",
-      "type": {
-        "type": "string",
-        "arg.properties": {
-          "options": [
-            "alex.jose@gmail.com",
-            "james.joe@gmail.com",
-            "john.doe@gmail.com",
-            "lisa.kudrow@gmail.com",
-            "jeniffer.aniston@gmail.com",
-            "ross.geller@gmail.com",
-            "joey.tribbiani@gmail.com",
-            "courtney.cox@gmail.com"
-          ]
-        }
-      }
-    },
-    {
-      "name": "average_spending_amount",
-      "type": {
-        "type": "int",
-        "arg.properties": {
-          "range": {
-            "min": 1000,
-            "max": 1500
-          }
-        }
-      }
+      ]
     }
-  ]
-}
-```
+    ```
 7. Click on **Continue**, Sizing should be good, click on **Continue** again. You can name the connector anything or leave it as default and click on **Continue**.
 <div align="center" padding=25px>
     <img src="images/connectors-5.png" width=75% height=75%>
@@ -281,50 +277,50 @@ The next step is to produce sample data using the Datagen Source connector. You 
 
 8. After few seconds Connector would be provisioned and running. Check for messages in the **customers** topic by navigating to the topics section.
 9. Repeat the same steps to create a connector for **credit_cards** topic by using the below schema but use existing API key this time.
-```
-{
-  "type": "record",
-  "name": "CreditCards",
-  "namespace": "workshop_5",
-  "fields": [
+    ```
     {
-      "name": "credit_card_number",
-      "type": {
-        "type": "long",
-        "arg.properties": {
-          "iteration": {
-            "start": 4738273984732749,
-            "step": 749384739937
+      "type": "record",
+      "name": "CreditCards",
+      "namespace": "workshop_5",
+      "fields": [
+        {
+          "name": "credit_card_number",
+          "type": {
+            "type": "long",
+            "arg.properties": {
+              "iteration": {
+                "start": 4738273984732749,
+                "step": 749384739937
+              }
+            }
+          }
+        },
+        {
+          "name": "customer_id",
+          "type": {
+            "type": "int",
+            "arg.properties": {
+              "iteration": {
+                "start": 100
+              }
+            }
+          }
+        },
+        {
+          "name": "maximum_limit",
+          "type": {
+            "type": "int",
+            "arg.properties": {
+              "range": {
+                "min": 10000,
+                "max": 50000
+              }
+            }
           }
         }
-      }
-    },
-    {
-      "name": "customer_id",
-      "type": {
-        "type": "int",
-        "arg.properties": {
-          "iteration": {
-            "start": 100
-          }
-        }
-      }
-    },
-    {
-      "name": "maximum_limit",
-      "type": {
-        "type": "int",
-        "arg.properties": {
-          "range": {
-            "min": 10000,
-            "max": 50000
-          }
-        }
-      }
+      ]
     }
-  ]
-}
-```
+    ```
 <div align="center" padding=25px>
     <img src="images/connectors-6.png" width=75% height=75%>
 </div>
@@ -350,18 +346,18 @@ The next step is to produce sample data using the Datagen Source connector. You 
 The next step is to run the producer to produce transaction records to the **transactions** topic.
 
 1. Open VS Code or any editor of your choice and open the github repository folder and run the following command
-```bash
-cd series-getting-started-with-cc/workshop-predictive-ai
-```
+    ```bash
+    cd flink_ai_workshop
+    ```
 3. Create a virtual environment for this project and activate it by running the following command
-```bash
-python3 -m venv _venv
-source _venv/bin/activate
-```
+    ```bash
+    python3 -m venv _venv
+    source _venv/bin/activate
+    ```
 4. Install the dependencies by running the following commmand.
-```bash
-pip3 install -r requirements.txt
-```
+    ```bash
+    pip3 install -r requirements.txt
+    ```
 5. Create a ```client.properties``` and ```schema.properties``` files in the current folder. Let these be empty now we'll paste the configurations in the next step.
 
 ## <a name="step-8"></a>Create a Python Client for transactions topic
@@ -384,20 +380,20 @@ The next step is to produce sample data using a client. You will configure a pyt
 
 4. Click on  **Use existing topic** in type **transactions**.
 5. Copy the configuration snippet shown in the screen and paste in ```client.properties``` file.
-```bash
-# Required connection configs for Kafka producer, consumer, and admin
-bootstrap.servers=pkc-p11xm.us-east-1.aws.confluent.cloud:9092
-security.protocol=SASL_SSL
-sasl.mechanisms=PLAIN
-sasl.username=xxxxxxxxxxxx
-sasl.password=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    ```bash
+    # Required connection configs for Kafka producer, consumer, and admin
+    bootstrap.servers=pkc-p11xm.us-east-1.aws.confluent.cloud:9092
+    security.protocol=SASL_SSL
+    sasl.mechanisms=PLAIN
+    sasl.username=xxxxxxxxxxxx
+    sasl.password=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-# Best practice for higher availability in librdkafka clients prior to 1.7
-session.timeout.ms=45000
+    # Best practice for higher availability in librdkafka clients prior to 1.7
+    session.timeout.ms=45000
 
-client.id=ccloud-python-client-3b98b537-adba-4c2d-b36f-79f964f031c0
+    client.id=ccloud-python-client-3b98b537-adba-4c2d-b36f-79f964f031c0
 
-```
+    ```
 
 6. Scroll down and click on **View Clients** button. However you can't see any clients yet as there are no applications currently talking to topics yet.
 7. Click on **Environments** in the top left of the screen and choose your environment.
@@ -408,15 +404,15 @@ client.id=ccloud-python-client-3b98b537-adba-4c2d-b36f-79f964f031c0
 
 9. Copy the endpoint of Stream Governance API and create a new credentials to access this by clicking on **API Keys > Add Key**.
 10. Paste the endpoint and API Keys in ```schema.properties``` file like below:
-```bash
-schema.registry.url=https://psrc-em25q.us-east-2.aws.confluent.cloud
-schema.registry.username=xxxxxxxxxx
-schema.registry.password=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-```
+    ```bash
+    schema.registry.url=https://psrc-em25q.us-east-2.aws.confluent.cloud
+    schema.registry.username=xxxxxxxxxx
+    schema.registry.password=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    ```
 11. Run the ```producer.py``` file by running the following command.
-```bash
-python3 producer.py
-```
+    ```bash
+    python3 producer.py
+    ```
 You can see records being published to transactions topic.
 > **Note:** If the producer fails, there are a few different ways to troubleshoot the error:
 > * Click on the *Cluster Overiview*, go to *Cluster Settings*,. Double check there are no extra spaces at the beginning or end of the key and secret that you may have accidentally copied and pasted in ```client.properties``` file also verify the ```bootstrap.servers``` value by comparing it with the *Bootstrap Server* value in the Endpoints section in UI. Also verify the ```schema.properties```
@@ -430,82 +426,82 @@ Kafka topics and schemas are always in sync with our Flink cluster. Any topic cr
 3. Choose the compute pool created in the previous steps.
 4. Click on **Open SQL workspace** button on the top right.
 5. Create an **aggregated_transactions** table by running the following SQL query.
-```sql
-CREATE TABLE aggregated_transactions (
-    transaction_id INT NOT NULL PRIMARY KEY NOT ENFORCED,
-    credit_card_number BIGINT,
-    customer_email STRING,
-    total_amount INT,
-    average_spending_amount INT,
-    transaction_timestamp TIMESTAMP(3),
-    WATERMARK FOR transaction_timestamp AS transaction_timestamp - INTERVAL '1' SECOND
-) WITH (
-    'changelog.mode' = 'upsert'
-);
-```
+    ```sql
+    CREATE TABLE aggregated_transactions (
+        transaction_id INT NOT NULL PRIMARY KEY NOT ENFORCED,
+        credit_card_number BIGINT,
+        customer_email STRING,
+        total_amount INT,
+        average_spending_amount INT,
+        transaction_timestamp TIMESTAMP(3),
+        WATERMARK FOR transaction_timestamp AS transaction_timestamp - INTERVAL '1' SECOND
+    ) WITH (
+        'changelog.mode' = 'upsert'
+    );
+    ```
 
 6. Add a new query by clicking on + icon in the left of previous query to Insert records to the above table by running the following query.
-```sql
-INSERT INTO aggregated_transactions
-SELECT 
-    t.transaction_id,
-    t.credit_card_number,
-    cust.customer_email,
-    t.amount,
-    cust.average_spending_amount,
-    TO_TIMESTAMP(t.transaction_timestamp) AS transaction_timestamp
-FROM transactions t
-INNER JOIN credit_cards cc ON t.credit_card_number = cc.credit_card_number
-INNER JOIN customers cust ON cc.customer_id = cust.customer_id
-```
+    ```sql
+    INSERT INTO aggregated_transactions
+    SELECT 
+        t.transaction_id,
+        t.credit_card_number,
+        cust.customer_email,
+        t.amount,
+        cust.average_spending_amount,
+        TO_TIMESTAMP(t.transaction_timestamp) AS transaction_timestamp
+    FROM transactions t
+    INNER JOIN credit_cards cc ON t.credit_card_number = cc.credit_card_number
+    INNER JOIN customers cust ON cc.customer_id = cust.customer_id
+    ```
 7. Now we will create a ```feature_set``` topic to put all the transactions in specific windows. To perform the same run the following query.
-```sql
-CREATE TABLE feature_set (
-    credit_card_number BIGINT PRIMARY KEY NOT ENFORCED,
-    customer_email STRING,
-    total_amount INT,
-    transaction_count BIGINT,
-    average_spending_amount INT,
-    window_start TIMESTAMP(3),
-    window_end TIMESTAMP(3)
-) WITH (
-  'changelog.mode' = 'upsert',
-  'value.format' = 'json-registry',
-  'key.format' = 'json-registry'
-)
-```
-```sql
-INSERT INTO feature_set
-  WITH windowed_transactions AS (
-SELECT 
-    credit_card_number,
-    SUM(total_amount) AS total_amount,
-    COUNT(transaction_id) AS transaction_count,
-    window_start,
-    window_end
-FROM 
-  TABLE(
-    TUMBLE(TABLE aggregated_transactions, DESCRIPTOR(transaction_timestamp),INTERVAL '10' MINUTES)
-  )
-GROUP BY credit_card_number, window_start,window_end
-)
-SELECT DISTINCT
-  t.credit_card_number,
-  t.customer_email,
-  wt.total_amount,
-  wt.transaction_count,
-  t.average_spending_amount,
-  wt.window_start,
-  wt.window_end
- FROM 
-  aggregated_transactions t
- JOIN
-   windowed_transactions wt
- ON
-  wt.credit_card_number = t.credit_card_number
- AND
-  t.transaction_timestamp BETWEEN wt.window_start AND wt.window_end
-```
+    ```sql
+    CREATE TABLE feature_set (
+        credit_card_number BIGINT PRIMARY KEY NOT ENFORCED,
+        customer_email STRING,
+        total_amount INT,
+        transaction_count BIGINT,
+        average_spending_amount INT,
+        window_start TIMESTAMP(3),
+        window_end TIMESTAMP(3)
+    ) WITH (
+      'changelog.mode' = 'upsert',
+      'value.format' = 'json-registry',
+      'key.format' = 'json-registry'
+    )
+    ```
+    ```sql
+    INSERT INTO feature_set
+      WITH windowed_transactions AS (
+    SELECT 
+        credit_card_number,
+        SUM(total_amount) AS total_amount,
+        COUNT(transaction_id) AS transaction_count,
+        window_start,
+        window_end
+    FROM 
+      TABLE(
+        TUMBLE(TABLE aggregated_transactions, DESCRIPTOR(transaction_timestamp),INTERVAL '10' MINUTES)
+      )
+    GROUP BY credit_card_number, window_start,window_end
+    )
+    SELECT DISTINCT
+      t.credit_card_number,
+      t.customer_email,
+      wt.total_amount,
+      wt.transaction_count,
+      t.average_spending_amount,
+      wt.window_start,
+      wt.window_end
+    FROM 
+      aggregated_transactions t
+    JOIN
+      windowed_transactions wt
+    ON
+      wt.credit_card_number = t.credit_card_number
+    AND
+      t.transaction_timestamp BETWEEN wt.window_start AND wt.window_end
+    ```
 
 Windows are central to processing infinite streams. Windows split the stream into “buckets” of finite size, over which you can apply computations. This document focuses on how windowing is performed in Confluent Cloud for Apache Flink and how you can benefit from windowed functions.
 
@@ -522,16 +518,16 @@ c. [Cumulate Windows](https://docs.confluent.io/cloud/current/flink/reference/qu
 The next step is to create a consumer for feature set topic and predict the fraudulent transaction.
 
 1. Update ```client.properties``` file with an additional configuration at the end of the file like following.
-```bash
-auto.offset.reset=earliest
-enable.auto.commit=false
-group.id=FraudDetectorApplication
-```
+    ```bash
+    auto.offset.reset=earliest
+    enable.auto.commit=false
+    group.id=FraudDetectorApplication
+    ```
 
 2. Run the ```fraud_detector.py``` to determine the fraudulent transactions from the feature set and produce the transactions to the topic created above.
-```python
-python3 fraud_detector.py
-```
+    ```python
+    python3 fraud_detector.py
+    ```
 
 3. Now you can see few messages in the *fraudulent_transactions* topic. When you see ```Polling for messages...``` continously you can stop the consumer by clicking ```Ctrl+c```
 
@@ -540,9 +536,9 @@ In this setup, a data engineer can extract the required features from various so
 This illustrates the power of integrating Confluent Cloud for efficient data streaming and feature engineering in the ML workflow.
 
 4. We shall see some fraudulent transactions under ***fraudulent_transactions*** topic by running the following command in flink
-```sql
-SELECT details FROM fraudulent_transactions
-```
+    ```sql
+    SELECT details FROM fraudulent_transactions
+    ```
 <div align="center" padding=25px>
     <img src="images/fraud_transactions.png" width=75% height=75%>
 </div>
@@ -551,19 +547,19 @@ SELECT details FROM fraudulent_transactions
 The next step is to create a integrated model from AWS Bedrock with Flink on Confluent Cloud.
 
 1. First, you will create the model connection using Confluent CLI. If you've never installed one, you could install it based on your OS (https://docs.confluent.io/confluent-cli/current/install.html) and login to confluent.
-```bash
-confluent login
-```
+    ```bash
+    confluent login
+    ```
 
 2. Make sure you prepare your AWS API Key and Secret to create connection to the Bedrock. (Would be provided in the workshop)
 
 3. Make sure you are using the right environment and right cluster to create the connection. Verify by performing the following.
-```bash
-confluent environment list
-confluent environment use <env-id>
-confluent kafka cluster list
-confluent kafka cluster use <cluster-id>
-```
+    ```bash
+    confluent environment list
+    confluent environment use <env-id>
+    confluent kafka cluster list
+    confluent kafka cluster use <cluster-id>
+    ```
 
 > **Note:** If you doesn't have any user you could check the step below to create user with full access to Bedrock and creating API key and secret. You could skip this step if you already have user and api key with full access to bedrock.
 
@@ -594,29 +590,72 @@ confluent kafka cluster use <cluster-id>
     <img src="images/bedrock-2.png" width=100% height=100%>
 </div>
 
-```bash
-confluent flink connection create my-connection --cloud aws --region us-east-1 --type bedrock --endpoint https://bedrock-runtime.us-east-1.amazonaws.com/model/meta.llama3-8b-instruct-v1:0/invoke --aws-access-key <API Key> --aws-secret-key <API Secret>
-```
-3. After creating connection, we need to create the model in Flink before we could invoke on our query.
-```sql
-CREATE MODEL NotificationEngine
-INPUT (details STRING)
-OUTPUT (message STRING)
-WITH (
-  'task' = 'text_generation',
-  'provider' = 'bedrock',
-  'bedrock.connection' = 'my-connection'
-);
-```
 
-5. Now let's invoke the model and get the results.
+4. Create a Bedrock Connection (Choose One)  
+Use **either** of the following commands to create a connection, depending on the model you want to use.  
+    <details>
+    <summary>🔹 Option A: Meta LLaMA3</summary>
 
-```sql
-SELECT message FROM fraudulent_transactions, LATERAL TABLE(ML_PREDICT('NotificationEngine', details));
-```
+    ```bash
+    confluent flink connection create my-connection \
+      --cloud aws \
+      --region us-east-1 \
+      --type bedrock \
+      --endpoint https://bedrock-runtime.us-east-1.amazonaws.com/model/meta.llama3-8b-instruct-v1:0/invoke \
+      --aws-access-key <API Key> \
+      --aws-secret-key <API Secret>
+    ```
+    </details> <details> <summary>🔹 Option B: Anthropic Claude 3.5 Haiku</summary>  
+
+    ```bash
+    confluent flink connection create aws-connection \
+      --cloud aws \
+      --region us-east-1 \
+      --type bedrock \
+      --endpoint https://bedrock-runtime.us-east-1.amazonaws.com/model/us.anthropic.claude-3-5-haiku-20241022-v1:0/invoke \
+      --aws-access-key <API Key> \
+      --aws-secret-key <API Secret>
+    ```
+    </details>  
+
+
+5. After creating connection, we need to create the model in Flink before we could invoke on our query.
+    ```sql
+    CREATE MODEL NotificationEngine
+    INPUT (details STRING)
+    OUTPUT (message STRING)
+    WITH (
+      'task' = 'text_generation',
+      'provider' = 'bedrock',
+      'bedrock.connection' = '<your-connection-name>',
+      'bedrock.params.max_tokens' = '500',
+      'bedrock.params.prompt' = 'Generate an urgent fraud alert message based on the following transaction details. The message should be clear, concise, and actionable, without introductory phrases:'
+    );
+    ```
+
+6. Now let's invoke the model and get the results.
+
+    ```sql
+    SELECT message 
+    FROM fraudulent_transactions, 
+    LATERAL TABLE(ML_PREDICT('NotificationEngine', details));
+
+    ```
 <div align="center" padding=25px>
     <img src="images/ai_messages.png" width=75% height=75%>
 </div>
+
+7. Sample Output (Fraud Notification Message)
+```
+Subject: Urgent: Suspicious Transaction Detected on Your Credit Card
+
+Dear Lisa Kudrow,
+
+We have detected an unusual transaction of $11,373 on your credit card (ending 2308), which significantly exceeds your typical spending pattern and appears suspicious. Please immediately log into your online banking account or call our fraud prevention hotline at 1-800-FRAUD to review and confirm or dispute this transaction. Your account security is our top priority, and we recommend freezing the card if you did not authorize this purchase.
+```
+> **Note:** The generated message is dynamically composed based on the transaction details provided in the **details** field of the input stream. The use of a prompt ensures the tone and structure remain focused and actionable.
+
+
 ***
 
 ## <a name="step-13"></a>Flink Monitoring
