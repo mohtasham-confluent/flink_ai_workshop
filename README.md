@@ -646,13 +646,13 @@ Use **either** of the following commands to create a connection, depending on th
 </div>
 
 7. Sample Output (Fraud Notification Message)
-```
-Subject: Urgent: Suspicious Transaction Detected on Your Credit Card
+    ```
+    Subject: Urgent: Suspicious Transaction Detected on Your Credit Card
 
-Dear Lisa Kudrow,
+    Dear Lisa Kudrow,
 
-We have detected an unusual transaction of $11,373 on your credit card (ending 2308), which significantly exceeds your typical spending pattern and appears suspicious. Please immediately log into your online banking account or call our fraud prevention hotline at 1-800-FRAUD to review and confirm or dispute this transaction. Your account security is our top priority, and we recommend freezing the card if you did not authorize this purchase.
-```
+    We have detected an unusual transaction of $11,373 on your credit card (ending 2308), which significantly exceeds your typical spending pattern and appears suspicious. Please immediately log into your online banking account or call our fraud prevention hotline at 1-800-FRAUD to review and confirm or dispute this transaction. Your account security is our top priority, and we recommend freezing the card if you did not authorize this purchase.
+    ```
 > **Note:** The generated message is dynamically composed based on the transaction details provided in the **details** field of the input stream. The use of a prompt ensures the tone and structure remain focused and actionable.
 
 
