@@ -1,7 +1,3 @@
-<div align="center" padding=25px>
-    <img src="images/confluent.png" width=50% height=50%>
-</div>
-
 # <div align="center">Real-Time Fraud Detection with Flink, Kafka & AI</div>
 ## <div align="center">Workshop Guide</div>
 <br>
