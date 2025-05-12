@@ -118,8 +118,26 @@ def identify_fraud(total_amount, transaction_count, average_spending):
 def produce_fraudulent_transaction(producer,credit_card_number,customer_email,amount, timestamp,average_spend,transactions_count):
     try:
       record = Fraud_Transaction(
-          details= f"Generate a short alert message to the user informing the transaction with the given details is likely to be fraud. credit card number {credit_card_number} customer {customer_email} total spend {amount}  average spend {average_spend} total number of transactions {transactions_count} time period {timestamp}"
-        )
+          # details = f"""
+          # Generate a short alert message to the user informing the transaction with the given details is likely to be fraud. credit card number {credit_card_number} customer {customer_email} total spend {amount}  average spend {average_spend} total number of transactions {transactions_count} time period {timestamp}
+          # details= f"""Write a short, clear, and urgent alert message to a credit card user, warning them that a recent transaction is likely fraudulent. Use the following details to personalize the message:
+          # Credit Card Number: {credit_card_number}
+          # Customer Email: {customer_email}
+          # Transaction Amount: {amount}
+          # Average Spend: {average_spend}
+          # Total Number of Transactions: {transactions_count}
+          # Transaction Timestamp: {timestamp}
+          # Keep the tone serious but calm, limit the message to 2–4 sentences. Focus on making the alert actionable and understandable to an average user."""
+
+          details = f"""
+          Credit Card Number: {credit_card_number}
+          Customer Email: {customer_email}
+          Transaction Amount: {amount}
+          Average Spend: {average_spend}
+          Total Transactions: {transactions_count}
+          Transaction Time Window: {timestamp}
+          """
+        ) 
       serialized_record = json_serializer(record.to_dict(), SerializationContext("fraudulent_transactions", MessageField.VALUE))
 
       producer.produce('fraudulent_transactions', value=serialized_record)
