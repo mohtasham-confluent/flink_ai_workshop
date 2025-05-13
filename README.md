@@ -624,8 +624,7 @@ Use **either** of the following commands to create a connection, depending on th
       'task' = 'text_generation',
       'provider' = 'bedrock',
       'bedrock.connection' = '<your-connection-name>',
-      'bedrock.params.max_tokens' = '500',
-      'bedrock.params.prompt' = 'Generate an urgent fraud alert message based on the following transaction details. The message should be clear, concise, and actionable, without introductory phrases:'
+      'bedrock.params.max_tokens' = '500'
     );
     ```
 
