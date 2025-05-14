@@ -614,6 +614,7 @@ Use **either** of the following commands to create a connection, depending on th
     ```
     </details>  
 
+    > For a full list of supported models, connection options, and additional details, see the official documentation: [Run an AI Model with Confluent Cloud for Apache Flink](https://docs.confluent.io/cloud/current/ai/ai-model-inference.html)
 
 5. After creating connection, we need to create the model in Flink before we could invoke on our query.
     ```sql
